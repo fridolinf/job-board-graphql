@@ -1,0 +1,44 @@
+type Query {
+  # job: Job
+  jobs: [Job] #it's will make the Job return value to array, we can add the [Job!]  " ! " -> exclamination symbol to, for makesure array cannot nullable
+  job(id: ID!): Job # get job by ID
+  company(id: ID!): Company
+}
+
+#This is schema Job -> regular comment it's can't rendered in documentation
+type Job {
+  id: ID! # tanda seru memastikan dia tidak bisa nullable, karena semua value di graphql sudah di pastikan bisa nullable
+  date: String!
+  title: String
+  """
+  THIS IS EXAMPLE OF DOCUMENTATION SCHEMA
+  """
+  description: String
+  company: Company! #Object association
+}
+
+type Company {
+  id: ID
+  name: String
+  description: String
+  jobs: [Job!]!
+}
+
+# WRITE DATA
+type Mutation {
+  createJob(input: CreateJobInput!): Job
+  deleteJob(id: ID!): Job
+  updateJob(input: UpdateJobInput!): Job
+}
+
+# Input types
+input CreateJobInput {
+  title: String!
+  description: String
+}
+# Input types
+input UpdateJobInput {
+  id: ID!
+  title: String!
+  description: String
+}
